@@ -1,6 +1,6 @@
 const { model, Schema } = require('mongoose')
 
-const userSchema = new Schema({
+const User = model('User', new Schema({
     name: {
         type: String,
         required: true,
@@ -27,13 +27,15 @@ const userSchema = new Schema({
         type: String,
         enum: ['Admin', 'Author'],
         default: 'Author'
+    },
+    status: {
+        type: Boolean,
+        default: true,
     }
 }, {
     timestamps: true,
     autoIndex: true,
     autoCreate: true,
-})
-
-const User = model('User', userSchema)
+}))
 
 module.exports = User
