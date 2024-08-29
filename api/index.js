@@ -1,11 +1,10 @@
 const express = require('express')
 const mongoose = require('mongoose')
+const router = require('./routes')
 
 const app = express()
 
-app.use((req, res) => {
-    res.send('Hi')
-})
+app.use(router)
 
 app.listen(5000, async () => {
     console.log('Server started at http://localhost:5000')
