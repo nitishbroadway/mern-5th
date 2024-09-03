@@ -9,6 +9,13 @@ app.use(express.urlencoded())
 
 app.use(router)
 
+app.use((error, req, res, next) => {
+    res.status(error.status || 400).send({
+        message: error.message || "Something went wrong!",
+        validation: error.validation
+    })
+})
+
 app.listen(5000, async () => {
     console.log('Server started at http://localhost:5000')
     console.log('Press Ctrl+C to stop')
