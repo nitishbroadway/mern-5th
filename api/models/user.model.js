@@ -21,7 +21,7 @@ const User = model('User', new Schema({
     phone: {
         type: String,
         required: true,
-        maxLength: 20,
+        maxLength: [20, 'The phone must be less than 20 characters'],
     },
     role: {
         type: String,

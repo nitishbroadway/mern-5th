@@ -1,4 +1,6 @@
+const { validationError, errorMsg } = require("../../lib")
 const { User } = require("../../models")
+const bcrypt = require('bcryptjs')
 
 class RegisterCtrl {
     register = async (req, res, next) => {
@@ -6,18 +8,20 @@ class RegisterCtrl {
             const { name, email, password, confirmPassword, phone, address } = req.body
 
             if(password == confirmPassword) {
-                await User.create({name, email, phone, address})
+                const hash = bcrypt.hashSync(password, 10)
+
+                await User.create({name, email, phone, address, password: hash})
+
+                res.status(201).send({
+                    message: 'Thank you for registering'
+                })
             } else {
-                next({
-                    message: 'There is some validation error',
-                    validation: {
-                        password: 'The password field is not confirmed',
-                    },
-                    status: 422,
+                validationError(next, {
+                    password: 'The password field is not confirmed',
                 })
             }
         } catch(error) {
-            console.log(error)
+            errorMsg(error, next)
         }
     }
 }
