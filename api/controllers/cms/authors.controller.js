@@ -1,4 +1,4 @@
-const { errorMsg, validationError } = require("../../lib")
+const { errorMsg, validationError, notFoundMsg } = require("../../lib")
 const { User } = require("../../models")
 const bcrypt = require('bcryptjs')
 
@@ -41,7 +41,11 @@ class AuthorsCtrl {
 
             const author = await User.findOne({ role: 'Author', _id: id })
 
-            res.send(author)
+            if(author) {
+                res.send(author)
+            } else {
+                notFoundMsg(next, 'Author')
+            }
         } catch (error) {
             errorMsg(error, next)
         }
@@ -52,11 +56,15 @@ class AuthorsCtrl {
             const { id } = req.params
             const { name, phone, address, status } = req.body
 
-            await User.findByIdAndUpdate(id, { name, phone, address, status })
+            if (await User.findOne({ role: 'Author', _id: id })) {
+                await User.findByIdAndUpdate(id, { name, phone, address, status })
 
-            res.send({
-                message: 'Author updated'
-            })
+                res.send({
+                    message: 'Author updated'
+                })
+            } else {
+                notFoundMsg(next, 'Author')
+            }
         } catch (error) {
             errorMsg(error, next)
         }
@@ -66,11 +74,15 @@ class AuthorsCtrl {
         try {
             const { id } = req.params
 
-            await User.findByIdAndDelete(id)
+            if (await User.findOne({ role: 'Author', _id: id })) {
+                await User.findByIdAndDelete(id)
 
-            res.send({
-                message: 'Author deleted'
-            })
+                res.send({
+                    message: 'Author deleted'
+                })
+            } else {
+                notFoundMsg(next, 'Author')
+            }
         } catch (error) {
             errorMsg(error, next)
         }

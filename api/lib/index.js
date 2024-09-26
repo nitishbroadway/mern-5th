@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken')
 const { User } = require('../models')
+const multer = require('multer')
 
 const validationError = (next, validation) => {
     next({
@@ -75,4 +76,32 @@ const adminOnly = (req, res, next) => {
     }
 }
 
-module.exports = { validationError, errorMsg, auth, adminOnly }
+const notFoundMsg = (next, name) => {
+    next({
+        message: `${name} not found`,
+        status: 404
+    })
+}
+
+const upload = () => multer({
+    storage: multer.diskStorage({
+        destination: (req, file, cb) => {
+            cb(null, './uploads')
+        },
+        filename: (req, file, cb) => {
+            const ext = file.originalname.split('.').pop()
+            const filename = Date.now() + '-' + Math.round(Math.random() * 1E9) + `.${ext}`
+
+            cb(null, filename)
+        },
+    }),
+    fileFilter: (req, file, cb) => {
+        if(file.mimetype.startsWith('image/')) {
+            cb(null, true)
+        } else {
+            cb(Error('Invalid file type'))
+        }
+    }
+})
+
+module.exports = { validationError, errorMsg, auth, adminOnly, notFoundMsg, upload }
