@@ -6,7 +6,9 @@ export const AppRouter = () => {
     return <BrowserRouter>
         <Routes>
             <Route path="/cms" element={<CmsLayout />}>
-                <Route index element={Cms.Dashboard.Home} />
+                <Route index element={<Cms.Dashboard.Home />} />
+
+                <Route path="login" element={<Cms.Auth.Login />} />
             </Route>
         </Routes>
     </BrowserRouter>
