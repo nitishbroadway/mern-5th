@@ -1,4 +1,5 @@
 import "bootstrap/dist/css/bootstrap.min.css"
+import "@fortawesome/fontawesome-free/css/all.min.css"
 
 import {Container, Nav, Navbar, NavDropdown} from "react-bootstrap"
 import {Outlet} from "react-router-dom"

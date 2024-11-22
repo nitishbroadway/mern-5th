@@ -1,8 +1,9 @@
 import { Button, Col, Form, Row } from "react-bootstrap"
 import { useFormik } from "formik"
 import * as Yup from "yup"
-import { InputField } from "../../../components"
+import { InputField, SubmitBtn } from "../../../components"
 import { useState } from "react"
+import http from "../../../http"
 
 export const Login = () => {
     const [remember, setRemember] = useState(false)
@@ -16,8 +17,11 @@ export const Login = () => {
             email: Yup.string().required().email(),
             password: Yup.string().required(),
         }),
-        onSubmit: () => {
-
+        onSubmit: (data, {setSubmitting}) => {
+            http.post('/auth/login', data)
+                .then(data => console.log(data))
+                .catch(error => console.log(error))
+                .finally(() => setSubmitting)
         }
     })
 
@@ -37,14 +41,12 @@ export const Login = () => {
                         
                         <div className="mb-3">
                             <Form.Check>
-                                <Form.Check.Input name="remember" id="remember" value={true} />
+                                <Form.Check.Input name="remember" id="remember" value={true} checked={remember} onClick={() => setRemember(!remember)} />
                                 <Form.Check.Label htmlFor="remember">Remember Me</Form.Check.Label>
                             </Form.Check>
                         </div>
                         <div className="d-grid">
-                            <Button variant="dark" type="submit">
-                                Log In
-                            </Button>
+                            <SubmitBtn disabled={formik.isSubmitting} icon="fa-arrow-right-to-bracket" label="Log In" />
                         </div>
                     </Form>
                 </Col>
