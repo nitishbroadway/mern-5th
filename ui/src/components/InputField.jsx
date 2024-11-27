@@ -9,8 +9,8 @@ export const InputField = ({formik, name, label, type = 'text'}) => {
             id={name}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            isInvalid={formik.errors[name]}
-            isValid={!formik.errors[name] && formik.values[name]} />
+            isInvalid={formik.touched[name] && formik.errors[name]}
+            isValid={formik.touched[name] && !formik.errors[name] && formik.values[name]} />
         
         {formik.errors[name] && <Form.Control.Feedback type="invalid">
             {formik.errors[name]}

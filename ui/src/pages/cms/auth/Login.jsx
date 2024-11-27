@@ -4,9 +4,16 @@ import * as Yup from "yup"
 import { InputField, SubmitBtn } from "../../../components"
 import { useState } from "react"
 import http from "../../../http"
+import { inStorage, validationError } from "../../../lib"
+import { useDispatch } from "react-redux"
+import {setUser} from "../../../store/user.slice"
+import { useNavigate } from "react-router-dom"
 
 export const Login = () => {
     const [remember, setRemember] = useState(false)
+
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const formik = useFormik({
         initialValues: {
@@ -19,9 +26,20 @@ export const Login = () => {
         }),
         onSubmit: (data, {setSubmitting}) => {
             http.post('/auth/login', data)
-                .then(data => console.log(data))
-                .catch(error => console.log(error))
-                .finally(() => setSubmitting)
+                .then(({data}) => {
+                    inStorage('mern5thtoken', data.token, remember)
+
+                    return http.get('/profile/details')
+                })
+                .then(({data}) => {
+                    dispatch(setUser(data))
+
+                    navigate('/cms')
+                })
+                .catch(({response}) => {
+                    validationError(response, formik)
+                })
+                .finally(() => setSubmitting())
         }
     })
 
