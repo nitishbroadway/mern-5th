@@ -18,19 +18,15 @@ export const Edit = () => {
     const formik = useFormik({
         initialValues: {
             name: '',
-            phone: '',
-            address: '',
             status: true,
         },
         validationSchema: Yup.object({
             name: Yup.string().required(),
-            phone: Yup.string().required(),
-            address: Yup.string().required(),
             status: Yup.boolean().required(),
         }),
         onSubmit: (data, {setSubmitting}) => {
-            http.patch(`/cms/authors/${params.id}`, data)
-                .then(() => navigate('/cms/authors'))
+            http.patch(`/cms/categories/${params.id}`, data)
+                .then(() => navigate('/cms/categories'))
                 .catch(({response}) => validationError(response, formik))
                 .finally(() => setSubmitting(false))
         }
@@ -39,7 +35,7 @@ export const Edit = () => {
     useEffect(() => {
         setLoading(true)
 
-        http.get(`/cms/authors/${params.id}`)
+        http.get(`/cms/categories/${params.id}`)
             .then(({data}) => {
                 for(let k in formik.values) {
                     if(k in data) {
@@ -54,14 +50,12 @@ export const Edit = () => {
     return loading ? <Loading /> : <Row>
         <Col className="bg-white py-3 my-3 rounded-2 shadow-sm">
             <Row>
-                <Col><h1>Edit Profile</h1></Col>
+                <Col><h1>Edit Category</h1></Col>
             </Row>
             <Row>
                 <Col>
                     <Form onSubmit={formik.handleSubmit}>
                         <InputField formik={formik} name="name" label="Name" />
-                        <InputField formik={formik} name="phone" label="Phone" />
-                        <InputField formik={formik} name="address" label="Address" as="textarea" />
 
                         <StatusSelect formik={formik} />
 

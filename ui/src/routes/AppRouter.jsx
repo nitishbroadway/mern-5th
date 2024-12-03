@@ -1,4 +1,4 @@
-import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom"
+import {BrowserRouter, Navigate, Outlet, Route, Routes} from "react-router-dom"
 import { Cms } from "../pages"
 import { CmsLayout } from "../components/CmsLayout"
 import { PrivateRoute } from "./PrivateRoute"
@@ -14,8 +14,17 @@ export const AppRouter = () => {
                 <Route path="edit-profile" element={<PrivateRoute element={<Cms.Profile.Edit />} />} />
                 <Route path="change-password" element={<PrivateRoute element={<Cms.Profile.Password />} />} />
 
-                <Route path="authors" element={<PrivateRoute element={<AdminRoute element={<Cms.Authors.List />} />} />} />
-                <Route path="authors/create" element={<PrivateRoute element={<AdminRoute element={<Cms.Authors.Create />} />} />} />
+                <Route path="authors" element={<PrivateRoute element={<AdminRoute element={<Outlet />} />} />}>
+                    <Route index element={<Cms.Authors.List />} />
+                    <Route path="create" element={<Cms.Authors.Create />} />
+                    <Route path="edit/:id" element={<Cms.Authors.Edit />} />
+                </Route>
+
+                <Route path="categories" element={<PrivateRoute element={<Outlet />} />}>
+                    <Route index element={<Cms.Categories.List />} />
+                    <Route path="create" element={<Cms.Categories.Create />} />
+                    <Route path="edit/:id" element={<Cms.Categories.Edit />} />
+                </Route>
 
                 <Route path="login" element={<Cms.Auth.Login />} />
             </Route>
