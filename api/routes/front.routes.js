@@ -9,4 +9,10 @@ router.get('/categories/:id', Front.FrontCtrl.categoryById)
 router.get('/articles/:id', Front.FrontCtrl.articleById)
 router.post('/articles/:id/comment', Front.FrontCtrl.comment)
 
+router.get('/image/:filename', (req, res, next) => {
+    res.sendFile(`./uploads/${req.params.filename}`, {
+        root: './'
+    })
+})
+
 module.exports = router

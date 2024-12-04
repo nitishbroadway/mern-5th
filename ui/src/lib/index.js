@@ -20,3 +20,5 @@ export const validationError = (response, formik) => {
         }
     }
 }
+
+export const imgUrl = filename => `${import.meta.env.VITE_API_URL}/image/${filename}`

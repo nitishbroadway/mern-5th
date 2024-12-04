@@ -26,6 +26,12 @@ export const AppRouter = () => {
                     <Route path="edit/:id" element={<Cms.Categories.Edit />} />
                 </Route>
 
+                <Route path="articles" element={<PrivateRoute element={<Outlet />} />}>
+                    <Route index element={<Cms.Articles.List />} />
+                    <Route path="create" element={<Cms.Articles.Create />} />
+                    <Route path="edit/:id" element={<Cms.Articles.Edit />} />
+                </Route>
+
                 <Route path="login" element={<Cms.Auth.Login />} />
             </Route>
         </Routes>

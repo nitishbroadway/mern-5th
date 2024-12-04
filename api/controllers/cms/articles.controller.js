@@ -1,13 +1,23 @@
 const { errorMsg, notFoundMsg } = require("../../lib")
-const { Article } = require("../../models")
+const { Article, Category } = require("../../models")
 const { unlinkSync } = require('node:fs')
 
 class ArticlesCtrl {
     index = async (req, res, next) => {
         try {
-            const articles = await Article.find()
+            let articles = await Article.find()
 
-            res.send(articles)
+            let temp = []
+
+            for(let article of articles) {
+                const category = await Category.findById(article.categoryId)
+                temp.push({
+                    ...article.toObject(),
+                    category,
+                })
+            }
+
+            res.send(temp)
         } catch(error) {
             errorMsg(error, next)
         }

@@ -2,6 +2,7 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import "@fortawesome/fontawesome-free/css/all.min.css"
 import "react-toastify/dist/ReactToastify.css"
 import "react-confirm-alert/src/react-confirm-alert.css"
+import "./CmsLayout.css"
 
 import {Container, Nav, Navbar, NavDropdown} from "react-bootstrap"
 import {Link, NavLink, Outlet} from "react-router-dom"
@@ -62,6 +63,12 @@ export const CmsLayout = () => {
                         <Nav.Item>
                             <NavLink to="/cms/categories" className="nav-link">
                                 <i className="fa-solid fa-list me-2"></i>Categories
+                            </NavLink>
+                        </Nav.Item>
+
+                        <Nav.Item>
+                            <NavLink to="/cms/articles" className="nav-link">
+                                <i className="fa-solid fa-newspaper me-2"></i>Articles
                             </NavLink>
                         </Nav.Item>
                     </Nav>
