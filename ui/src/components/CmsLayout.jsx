@@ -71,6 +71,12 @@ export const CmsLayout = () => {
                                 <i className="fa-solid fa-newspaper me-2"></i>Articles
                             </NavLink>
                         </Nav.Item>
+
+                        <Nav.Item>
+                            <NavLink to="/cms/comments" className="nav-link">
+                                <i className="fa-solid fa-comments me-2"></i>Comments
+                            </NavLink>
+                        </Nav.Item>
                     </Nav>
                     <Nav className="ms-auto">
                         <NavDropdown title={<>

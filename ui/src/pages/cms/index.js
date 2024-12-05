@@ -4,5 +4,6 @@ import * as Profile from "./profile"
 import * as Authors from "./authors"
 import * as Categories from "./categrories"
 import * as Articles from "./articles"
+import * as Comments from "./comments"
 
-export {Dashboard, Auth, Profile, Authors, Categories, Articles}
+export {Dashboard, Auth, Profile, Authors, Categories, Articles, Comments}

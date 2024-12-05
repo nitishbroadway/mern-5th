@@ -1,13 +1,16 @@
 import {BrowserRouter, Navigate, Outlet, Route, Routes} from "react-router-dom"
-import { Cms } from "../pages"
+import { Cms, Front } from "../pages"
 import { CmsLayout } from "../components/CmsLayout"
 import { PrivateRoute } from "./PrivateRoute"
 import { AdminRoute } from "./AdminRoute"
+import { FrontLayout } from "../components"
 
 export const AppRouter = () => {
     return <BrowserRouter>
         <Routes>
-            <Route path="/" element={<Navigate to="/cms" />} />
+            <Route path="/" element={<FrontLayout />}>
+                <Route index element={<Front.Home />} />
+            </Route>
             <Route path="/cms" element={<CmsLayout />}>
                 <Route index element={<PrivateRoute element={<Cms.Dashboard.Home />} />} />
 
@@ -31,6 +34,8 @@ export const AppRouter = () => {
                     <Route path="create" element={<Cms.Articles.Create />} />
                     <Route path="edit/:id" element={<Cms.Articles.Edit />} />
                 </Route>
+
+                <Route path="comments" element={<PrivateRoute element={<Cms.Comments.List />} />} />
 
                 <Route path="login" element={<Cms.Auth.Login />} />
             </Route>
