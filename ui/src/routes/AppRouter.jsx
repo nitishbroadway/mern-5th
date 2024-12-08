@@ -10,6 +10,10 @@ export const AppRouter = () => {
         <Routes>
             <Route path="/" element={<FrontLayout />}>
                 <Route index element={<Front.Home />} />
+                
+                <Route path="categories/:id" element={<Front.Category />} />
+                
+                <Route path="articles/:id" element={<Front.Article />} />
             </Route>
             <Route path="/cms" element={<CmsLayout />}>
                 <Route index element={<PrivateRoute element={<Cms.Dashboard.Home />} />} />

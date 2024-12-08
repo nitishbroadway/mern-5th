@@ -4,25 +4,34 @@ import http from "../../http"
 import { Loading } from "../../components"
 import { imgUrl } from "../../lib"
 import placeholder from "/placeholder.jpg"
-import { Link } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 
-export const Home = () => {
-    const [articles, setArticles] = useState([])
+export const Category = () => {
+    const [category, setCategory] = useState(null)
     const [loading, setLoading] = useState(true)
+
+    const params = useParams()
 
     useEffect(() => {
         setLoading(true)
 
-        http.get('/home')
-            .then(({data}) => setArticles(data))
+        http.get(`/categories/${params.id}`)
+            .then(({data}) => {
+                setCategory(data)
+            })
             .catch(() => {})
             .finally(() => setLoading(false))
-    }, [])
+    }, [params.id])
 
     return loading ? <Loading /> : <Row>
         <Col className="bg-white py-3">
             <Row>
-                {articles.map(article => <Col md="3" className="mb-3">
+                <Col className="text-center">
+                    <h1>{category.name}</h1>
+                </Col>
+            </Row>
+            <Row>
+                {category?.articles?.map(article => <Col md="3" className="mb-3">
                     <div className="border rounded-2 shadow-sm">
                         <Row>
                             <Col xs="12">
@@ -32,7 +41,7 @@ export const Home = () => {
                                 {article.name}
                             </div>
                             <div className="col-12 text-center my-3">
-                                <Link to={`/articles/:id`} className="btn btn-success btn-sm">
+                                <Link to={`/articles/${article._id}`} className="btn btn-success btn-sm">
                                     <i className="fa-solid fa-book me-2"></i>Open Article
                                 </Link>
                             </div>
